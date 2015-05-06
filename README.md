@@ -1,6 +1,6 @@
 # MazeGame
 
-TODO: Delete this and the text above, and describe your project
+Maze Game is a game where you move a pixel around an 8x8 grid.  Maybe it hooks into an LCD display and allows you to search and fight stuff.  
 
 ## Installation
 
@@ -16,7 +16,11 @@ Connect your Arduino Uno and flash it using platformio:
 
 ## Parts
 
-* [TODO:  Add Parts](http://127.0.0.1)
+* [8x8 LED Matrix](https://www.adafruit.com/products/902)
+* [LCD Plate](https://www.adafruit.com/products/1115)
+
+#### MCUs
+* [Arduino Uno](https://127.0.0.1)
 
 ## Wiring
 
@@ -24,7 +28,7 @@ TODO: Drop a link to a picture of your wiring here or something.  Maybe fritzing
 
 ## Device Operation
 
-TODO: Explain how to use the device here
+Use the LCD plate buttons to navigate the green pixel through the maze of yellow pixels.  Watch out for red pixels, cause they like to fight!
 
 
 ## Contributing
