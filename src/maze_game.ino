@@ -20,27 +20,34 @@
  ****************************************************/
 
 #include <Wire.h>
+// For LED Backpack
 #include "Adafruit_LEDBackpack.h"
 #include "Adafruit_GFX.h"
+// For LCD Shield
+#include <Adafruit_MCP23017.h>
+#include <Adafruit_RGBLCDShield.h>
 
 class Unit {
   public:
-   int x;
-   int y;
+   int x = 2;
+   int y = 2;
    int hp;
    int color;
    void drawUnit(Adafruit_BicolorMatrix matrix) { 
-     matrix.drawPixel(0, 0, LED_GREEN);
+     matrix.drawPixel(x, y, LED_GREEN);
      matrix.writeDisplay();  // write the changes we just made to the display
    }
 };
 
 
-Unit *hero;
 
 Adafruit_BicolorMatrix matrix = Adafruit_BicolorMatrix();
+Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 
-
+Unit *hero;
+boolean doesNeedRedraw;
+int8_t lastButtonPress = 0;
+int8_t frame = 0;
 
 
 
@@ -50,6 +57,9 @@ void setup() {
   hero = new Unit();
   
   matrix.begin(0x70);  // pass in the address
+
+  lcd.begin(0, 0);         // initialize display colums and rows
+  lcd.setBacklight(0x7);
 }
 
 static const uint8_t PROGMEM
@@ -81,19 +91,27 @@ static const uint8_t PROGMEM
     B01000010,
     B00111100 },
   maze_bmp[] =
-  { B00000000,
-    B10000001,
-    B10000001,
-    B10000001,
-    B10000001,
-    B10000001,
-    B10000001,
-    B00111100 };
+  { B10100000,
+    B10110000,
+    B10010000,
+    B11011100,
+    B01000100,
+    B01110100,
+    B00010100,
+    B00010111 };
 
 void loop() {
+  pollKeys();
+  drawText();
   drawMaze();
   drawHero();
   delay(500);
+}
+
+void drawText() {
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Fun Game");
 }
 
 void drawMaze() {
@@ -105,6 +123,56 @@ void drawMaze() {
 void drawHero() {
   hero->drawUnit(matrix);
 }
+
+
+
+
+
+void pollKeys() {
+  uint8_t buttons;                       // button read value
+
+  buttons = lcd.readButtons();  // read the buttons on the shield
+ 
+  if(buttons!=0) {                     // if a button was pressed
+    boolean wasSelectButtonPressedTooRecently = (frame - lastButtonPress) <= 8;
+    doesNeedRedraw = true;
+    if (buttons & BUTTON_RIGHT) {       // if up pressed, increment hours
+      hero->x +=1;
+    }
+    if (buttons & BUTTON_LEFT) {     // if down pressed, decrement hours
+      hero->x -=1;
+    }
+    if (buttons & BUTTON_UP) {       // if up pressed, increment hours
+      hero->y -=1;
+    }
+    if (buttons & BUTTON_DOWN) {     // if down pressed, decrement hours
+      hero->y +=1;
+    }
+
+    /* if (buttons & BUTTON_SELECT && !wasSelectButtonPressedTooRecently ) { 
+      lastButtonPress = frame;
+      if(backlight)                 // if the backlight is on
+        backlight=OFF;             //   set it to off
+      else                          // else turn on the backlight if off 
+        backlight=WHITE;           //   (you can select any color)
+      
+      lcd.setBacklight(backlight);  // set the new backlight state
+    } */
+
+    if (buttons & BUTTON_SELECT && wasSelectButtonPressedTooRecently ) { 
+      doesNeedRedraw = false;
+    }
+
+    //confineDisplayText();
+  }
+}
+
+
+
+
+
+
+
 
 /*
 void loop() {
