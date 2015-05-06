@@ -34,6 +34,15 @@ TODO: Drop a link to a picture of your wiring here or something.  Maybe fritzing
 Use the LCD plate buttons to navigate the green pixel through the maze of yellow pixels.  Watch out for red pixels, cause they like to fight!
 
 
+## Dependencies
+
+For an Uno, you'll need:
+
+  * Adafruit-RGB-LCD-Shield-Library
+  * Adafruit-GFX-Library
+  * Adafruit-LED-Backpack-Library
+
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/maze_game/fork )
