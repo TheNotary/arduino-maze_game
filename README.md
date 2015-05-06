@@ -16,6 +16,9 @@ Connect your Arduino Uno and flash it using platformio:
 
 ## Parts
 
+* Female Male Jumper Wires
+* Male Male Jumper Wires
+* Breadboard (or something)
 * [8x8 LED Matrix](https://www.adafruit.com/products/902)
 * [LCD Plate](https://www.adafruit.com/products/1115)
 
