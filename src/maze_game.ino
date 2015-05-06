@@ -23,11 +23,31 @@
 #include "Adafruit_LEDBackpack.h"
 #include "Adafruit_GFX.h"
 
+class Unit {
+  public:
+   int x;
+   int y;
+   int hp;
+   int color;
+   void drawUnit(Adafruit_BicolorMatrix matrix) { 
+     matrix.drawPixel(0, 0, LED_GREEN);
+     matrix.writeDisplay();  // write the changes we just made to the display
+   }
+};
+
+
+Unit *hero;
+
 Adafruit_BicolorMatrix matrix = Adafruit_BicolorMatrix();
 
+
+
+
+
 void setup() {
-  Serial.begin(9600);
-  Serial.println("8x8 LED Matrix Test");
+  // Serial.begin(9600);
+  // Serial.println("8x8 LED Matrix Test");
+  hero = new Unit();
   
   matrix.begin(0x70);  // pass in the address
 }
@@ -59,8 +79,34 @@ static const uint8_t PROGMEM
     B10011001,
     B10100101,
     B01000010,
+    B00111100 },
+  maze_bmp[] =
+  { B00000000,
+    B10000001,
+    B10000001,
+    B10000001,
+    B10000001,
+    B10000001,
+    B10000001,
     B00111100 };
 
+void loop() {
+  drawMaze();
+  drawHero();
+  delay(500);
+}
+
+void drawMaze() {
+  matrix.clear();
+  matrix.drawBitmap(0, 0, maze_bmp, 8, 8, LED_YELLOW);
+  matrix.writeDisplay();
+}
+
+void drawHero() {
+  hero->drawUnit(matrix);
+}
+
+/*
 void loop() {
 
   matrix.clear();
@@ -120,3 +166,4 @@ void loop() {
   }
   matrix.setRotation(0);
 }
+*/
