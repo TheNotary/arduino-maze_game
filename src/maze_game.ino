@@ -45,7 +45,8 @@ Adafruit_BicolorMatrix matrix = Adafruit_BicolorMatrix();
 Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 
 Unit *hero;
-boolean doesNeedRedraw;
+boolean doesNeedRedraw = true;
+boolean textNeedsRedraw = true;
 int8_t lastButtonPress = 0;
 int8_t frame = 0;
 
@@ -57,6 +58,7 @@ void setup() {
   hero = new Unit();
   
   matrix.begin(0x70);  // pass in the address
+  matrix.setBrightness(1);
 
   lcd.begin(0, 0);         // initialize display colums and rows
   lcd.setBacklight(0x7);
@@ -90,7 +92,7 @@ static const uint8_t PROGMEM
     B10100101,
     B01000010,
     B00111100 },
-  maze_bmp[] =
+  walls_bmp[] =
   { B10100000,
     B10110000,
     B10010000,
@@ -98,25 +100,31 @@ static const uint8_t PROGMEM
     B01000100,
     B01110100,
     B00010100,
-    B00010111 };
+    B00010100 };
 
 void loop() {
   pollKeys();
   drawText();
-  drawMaze();
-  drawHero();
-  delay(500);
+  if(doesNeedRedraw){
+    drawWalls();
+    drawHero();
+    doesNeedRedraw = false;
+  }
+  delay(100);
 }
 
 void drawText() {
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print("Fun Game");
+  if(textNeedsRedraw){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Fun Game");
+    textNeedsRedraw = false;
+  }
 }
 
-void drawMaze() {
+void drawWalls() {
   matrix.clear();
-  matrix.drawBitmap(0, 0, maze_bmp, 8, 8, LED_YELLOW);
+  matrix.drawBitmap(0, 0, walls_bmp, 8, 8, LED_YELLOW);
   matrix.writeDisplay();
 }
 
@@ -170,68 +178,3 @@ void pollKeys() {
 
 
 
-
-
-
-
-/*
-void loop() {
-
-  matrix.clear();
-  matrix.drawBitmap(0, 0, smile_bmp, 8, 8, LED_GREEN);
-  matrix.writeDisplay();
-  delay(500);
-
-  matrix.clear();
-  matrix.drawBitmap(0, 0, neutral_bmp, 8, 8, LED_YELLOW);
-  matrix.writeDisplay();
-  delay(500);
-
-  matrix.clear();
-  matrix.drawBitmap(0, 0, frown_bmp, 8, 8, LED_RED);
-  matrix.writeDisplay();
-  delay(500);
-
-  matrix.clear();      // clear display
-  matrix.drawPixel(0, 0, LED_GREEN);  
-  matrix.writeDisplay();  // write the changes we just made to the display
-  delay(500);
-
-  matrix.clear();
-  matrix.drawLine(0,0, 7,7, LED_YELLOW);
-  matrix.writeDisplay();  // write the changes we just made to the display
-  delay(500);
-
-  matrix.clear();
-  matrix.drawRect(0,0, 8,8, LED_RED);
-  matrix.fillRect(2,2, 4,4, LED_GREEN);
-  matrix.writeDisplay();  // write the changes we just made to the display
-  delay(500);
-
-  matrix.clear();
-  matrix.drawCircle(3,3, 3, LED_YELLOW);
-  matrix.writeDisplay();  // write the changes we just made to the display
-  delay(500);
-
-  matrix.setTextWrap(false);  // we dont want text to wrap so it scrolls nicely
-  matrix.setTextSize(1);
-  matrix.setTextColor(LED_GREEN);
-  for (int8_t x=7; x>=-36; x--) {
-    matrix.clear();
-    matrix.setCursor(x,0);
-    matrix.print("Hello");
-    matrix.writeDisplay();
-    delay(100);
-  }
-  matrix.setRotation(3);
-  matrix.setTextColor(LED_RED);
-  for (int8_t x=7; x>=-36; x--) {
-    matrix.clear();
-    matrix.setCursor(x,0);
-    matrix.print("World");
-    matrix.writeDisplay();
-    delay(100);
-  }
-  matrix.setRotation(0);
-}
-*/
