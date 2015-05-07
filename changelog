@@ -1,6 +1,11 @@
 ** 0.0.x **
 
-	- Bounds Checking?
+	- Bounds Checking
+  - Make select button search for things
+	- Make clean way of "scripting" text
+	- Make it so you can change maps
+
+
   - Make msg txt stop flashing
 	- Make lights dimmer
 

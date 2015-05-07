@@ -27,18 +27,8 @@
 #include <Adafruit_MCP23017.h>
 #include <Adafruit_RGBLCDShield.h>
 
-class Unit {
-  public:
-   int x = 2;
-   int y = 2;
-   int hp;
-   int color;
-   void drawUnit(Adafruit_BicolorMatrix matrix) { 
-     matrix.drawPixel(x, y, LED_GREEN);
-     matrix.writeDisplay();  // write the changes we just made to the display
-   }
-};
-
+// For pixel Units, such as hero
+#include <Unit.h>
 
 
 Adafruit_BicolorMatrix matrix = Adafruit_BicolorMatrix();
@@ -50,12 +40,8 @@ boolean textNeedsRedraw = true;
 int8_t lastButtonPress = 0;
 int8_t frame = 0;
 
-
-
 void setup() {
-  // Serial.begin(9600);
-  // Serial.println("8x8 LED Matrix Test");
-  hero = new Unit();
+  hero = new Unit(4,6);
   
   matrix.begin(0x70);  // pass in the address
   matrix.setBrightness(1);
@@ -100,7 +86,7 @@ static const uint8_t PROGMEM
     B01000100,
     B01110100,
     B00010100,
-    B00010100 };
+    B00011100 };
 
 void loop() {
   pollKeys();
@@ -129,7 +115,7 @@ void drawWalls() {
 }
 
 void drawHero() {
-  hero->drawUnit(matrix);
+  hero->draw(matrix);
 }
 
 

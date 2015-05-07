@@ -3,6 +3,7 @@
    
   class Unit {
     public:
+     Unit(int xPos, int yPos);
      int x;
      int y;
      int hp;
