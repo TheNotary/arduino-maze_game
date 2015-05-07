@@ -29,6 +29,8 @@
 
 // For pixel Units, such as hero
 #include <Unit.h>
+// For organizing maps
+#include <Map.h>
 
 #include "Globals.h"
 
@@ -68,7 +70,7 @@ void drawText() {
 
 void drawWalls() {
   matrix.clear();
-  matrix.drawBitmap(0, 0, walls_bmp, 8, 8, LED_YELLOW);
+  matrix.drawBitmap(0, 0, walls1_bmp, 8, 8, LED_YELLOW);
   matrix.writeDisplay();
 }
 

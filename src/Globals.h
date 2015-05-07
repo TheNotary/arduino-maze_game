@@ -36,7 +36,7 @@ static const uint8_t PROGMEM
     B10100101,
     B01000010,
     B00111100 },
-  walls_bmp[] =
+  walls1_bmp[] =
   { B10100000,
     B10110000,
     B10010000,
@@ -45,3 +45,6 @@ static const uint8_t PROGMEM
     B01110100,
     B00010100,
     B00011100 };
+
+
+
