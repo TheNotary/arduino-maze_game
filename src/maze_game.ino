@@ -41,7 +41,7 @@ void setup() {
   Serial.println("Starting Maze Game");
   
   hero = new Unit(4,6);
-  map1 = new Map(walls1_bmp);
+  map1 = new Map(walls0_bmp);
   
   matrix.begin(0x70);  // pass in the address
   matrix.setBrightness(1);
@@ -56,8 +56,17 @@ void loop() {
   pollKeys();
   drawText();
   if(doesNeedRedraw){
-    drawWalls();
-    drawHero();
+    //matrix.clear();
+    // Looks like I can only do one call to writeDisplay, and it must directly precede draw commands????
+    // because writeDisplay will clear what ever was written last
+    //drawWalls();
+    //delay(100);
+    //drawHero();
+    //matrix.writeDisplay();
+    
+    drawGraphics(wall_buffer, wall_buffer, wall_buffer);
+    
+    //matrix.writeDisplay();  // write the changes we just made to the display
     doesNeedRedraw = false;
   }
   delay(100);
@@ -73,7 +82,10 @@ void drawText() {
 }
 
 void drawWalls() {
-  map1->draw(matrix);
+  map1->draw(matrix, walls1_bmp);
+  //uint8_t *myPtr;
+  //myPtr = walls1_bmp;
+  
   //matrix.clear();
   //matrix.drawBitmap(0, 0, walls1_bmp, 8, 8, LED_YELLOW);
   //matrix.writeDisplay();
@@ -84,6 +96,17 @@ void drawHero() {
 }
 
 
+// this function takes in a bitmap
+void drawGraphics(uint8_t yellowMatrix[], uint8_t greenMatrix[], uint8_t redMatrix[]) {
+  matrix.clear();
+  // Draw Walls
+  matrix.drawPixel(0, 0, LED_YELLOW);
+  matrix.drawPixel(1, 0, LED_YELLOW);
+  
+  // Draw Hero
+  matrix.drawPixel(hero->x, hero->y, LED_GREEN);
+  matrix.writeDisplay();
+}
 
 
 
@@ -102,6 +125,7 @@ void pollKeys() {
       hero->x -=1;
     }
     if (buttons & BUTTON_UP) {       // if up pressed, increment hours
+      map1->setLevel(1);
       hero->y -=1;
     }
     if (buttons & BUTTON_DOWN) {     // if down pressed, decrement hours

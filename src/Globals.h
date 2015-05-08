@@ -32,8 +32,19 @@ static const uint8_t PROGMEM
      };
 */
 
+uint8_t wall_buffer[] = 
+      { B10100000,    // lvl 1
+        B10110000,
+        B10010000,
+        B11011100,
+        B01000100,
+        B01110100,
+        B00010100,
+        B00011100 };
+
+
 static const uint8_t PROGMEM
-  walls1_bmp[] =
+  walls0_bmp[] =
   { B10100000,
     B10110000,
     B10010000,
@@ -41,7 +52,16 @@ static const uint8_t PROGMEM
     B01000100,
     B01110100,
     B00010100,
-    B00011100 };
+    B00011100 },
+  walls1_bmp[] =
+  { B00100000,
+    B00110000,
+    B00010000,
+    B00011000,
+    B11101000,
+    B10001000,
+    B10111000,
+    B10100000 };
 
 
 static const uint8_t PROGMEM
