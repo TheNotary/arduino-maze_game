@@ -3,8 +3,8 @@
    
   class Map {
     public:
-     Map(uint8_t walls_bmp[]);
-     uint8_t walls[];
+     Map(uint8_t walls_bmp[8]);
+     uint8_t walls[8];
      void draw(Adafruit_BicolorMatrix matrix);
   };
    

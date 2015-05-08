@@ -14,6 +14,22 @@ Connect your Arduino Uno and flash it using platformio:
 
     $ platformio run
 
+## Serial Debugging
+
+Setup minicom on your debian based linux distro:
+
+    $  sudo apt-get install minicom
+    $  sudo minicom -s
+    << Configure minicom in this setup mode >>
+    << Change port to /dev/ttyACM0 or w/e your Arduino is >>
+    << Then save as dfl >>
+    
+    # Now you can start your serial terminal
+    $  minicom
+    << ctl + A then x to exit >>
+
+
+
 ## Parts
 
 * Female Male Jumper Wires

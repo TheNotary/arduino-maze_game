@@ -37,7 +37,11 @@
 
 
 void setup() {
+  Serial.begin(115200);
+  Serial.println("Starting Maze Game");
+  
   hero = new Unit(4,6);
+  //map1 = new Map(walls1_bmp);
   
   matrix.begin(0x70);  // pass in the address
   matrix.setBrightness(1);
@@ -69,6 +73,7 @@ void drawText() {
 }
 
 void drawWalls() {
+  //map1->draw(matrix);
   matrix.clear();
   matrix.drawBitmap(0, 0, walls1_bmp, 8, 8, LED_YELLOW);
   matrix.writeDisplay();
@@ -103,15 +108,18 @@ void pollKeys() {
       hero->y +=1;
     }
 
-    /* if (buttons & BUTTON_SELECT && !wasSelectButtonPressedTooRecently ) { 
+    if (buttons & BUTTON_SELECT && !wasSelectButtonPressedTooRecently ) { 
       lastButtonPress = frame;
-      if(backlight)                 // if the backlight is on
-        backlight=OFF;             //   set it to off
-      else                          // else turn on the backlight if off 
-        backlight=WHITE;           //   (you can select any color)
+      if(true){               // if the backlight is on
+        Serial.println("Select Pressed");
+        // backlight=OFF;             //   set it to off
+      }
+      else{                        // else turn on the backlight if off 
+        // backlight=WHITE;           //   (you can select any color)
+      }
       
-      lcd.setBacklight(backlight);  // set the new backlight state
-    } */
+      //lcd.setBacklight(backlight);  // set the new backlight state
+    }
 
     if (buttons & BUTTON_SELECT && wasSelectButtonPressedTooRecently ) { 
       doesNeedRedraw = false;
