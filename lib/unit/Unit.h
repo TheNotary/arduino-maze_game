@@ -8,7 +8,7 @@
      int y;
      int hp;
      int color;
-     void draw(Adafruit_BicolorMatrix matrix);
+     void draw(Adafruit_BicolorMatrix &matrix);
   };
    
 #endif

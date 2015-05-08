@@ -11,13 +11,8 @@ Map::Map(const uint8_t walls_bmp[8]) {
   //}
 }
  
-void Map::draw(Adafruit_BicolorMatrix matrix, const uint8_t *walls_bmp){
-  matrix.clear();
-  matrix.drawPixel(0, 0, LED_YELLOW);
-  matrix.writeDisplay();
-  
-  
-  
+void Map::draw(Adafruit_BicolorMatrix &matrix, const uint8_t *walls_bmp){
+  matrix.drawBitmap(0, 0, walls_bmp, 8, 8, LED_YELLOW);
 }
 
 void Map::setLevel(uint8_t level){

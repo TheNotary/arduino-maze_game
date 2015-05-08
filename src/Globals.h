@@ -5,7 +5,7 @@ Unit *hero;
 Map *map1;
 boolean doesNeedRedraw = true;
 boolean textNeedsRedraw = true;
-int8_t lastButtonPress = 0;
+uint8_t lastButtonPress = 0;
 // 0-255
 uint8_t frame = 0;
 

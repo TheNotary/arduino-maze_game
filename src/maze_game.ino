@@ -56,24 +56,19 @@ void loop() {
   pollKeys();
   drawText();
   if(doesNeedRedraw){
-    //matrix.clear();
-    // Looks like I can only do one call to writeDisplay, and it must directly precede draw commands????
-    // because writeDisplay will clear what ever was written last
-    //drawWalls();
-    //delay(100);
-    //drawHero();
-    //matrix.writeDisplay();
+    matrix.clear();
     
-    drawGraphics(wall_buffer, wall_buffer, wall_buffer);
+    map1->draw(matrix, walls0_bmp);
+    hero->draw(matrix);
     
-    //matrix.writeDisplay();  // write the changes we just made to the display
+    matrix.writeDisplay();
     doesNeedRedraw = false;
   }
-  delay(100);
+  endPhase();
 }
 
 void drawText() {
-  if(textNeedsRedraw){
+  if(textNeedsRedraw) {
     lcd.clear();
     lcd.setCursor(0,0);
     lcd.print("Fun Game");
@@ -81,32 +76,16 @@ void drawText() {
   }
 }
 
-void drawWalls() {
-  map1->draw(matrix, walls1_bmp);
-  //uint8_t *myPtr;
-  //myPtr = walls1_bmp;
-  
-  //matrix.clear();
-  //matrix.drawBitmap(0, 0, walls1_bmp, 8, 8, LED_YELLOW);
-  //matrix.writeDisplay();
+
+void endPhase(){
+  frame++;
+  if(frame >= 255){
+    frame = 0;
+    lastButtonPress = 0;
+  }
+  delay(100);
 }
 
-void drawHero() {
-  hero->draw(matrix);
-}
-
-
-// this function takes in a bitmap
-void drawGraphics(uint8_t yellowMatrix[], uint8_t greenMatrix[], uint8_t redMatrix[]) {
-  matrix.clear();
-  // Draw Walls
-  matrix.drawPixel(0, 0, LED_YELLOW);
-  matrix.drawPixel(1, 0, LED_YELLOW);
-  
-  // Draw Hero
-  matrix.drawPixel(hero->x, hero->y, LED_GREEN);
-  matrix.writeDisplay();
-}
 
 
 
@@ -135,7 +114,10 @@ void pollKeys() {
     if (buttons & BUTTON_SELECT && !wasSelectButtonPressedTooRecently ) { 
       lastButtonPress = frame;
       if(true){               // if the backlight is on
-        Serial.println("Select Pressed");
+        Serial.println(lastButtonPress);
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Select");
         // backlight=OFF;             //   set it to off
       }
       else{                        // else turn on the backlight if off 
