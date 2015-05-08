@@ -3,7 +3,7 @@
 #include "Map.h"
 #include "Arduino.h"
 
-Map::Map(uint8_t walls_bmp[8]) {
+Map::Map(const uint8_t walls_bmp[8]) {
   for (uint8_t i = 0; i < 8; i++) {
     walls[i] = walls_bmp[i];
   }

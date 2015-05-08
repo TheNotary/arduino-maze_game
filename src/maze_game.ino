@@ -41,7 +41,7 @@ void setup() {
   Serial.println("Starting Maze Game");
   
   hero = new Unit(4,6);
-  //map1 = new Map(walls1_bmp);
+  map1 = new Map(walls1_bmp);
   
   matrix.begin(0x70);  // pass in the address
   matrix.setBrightness(1);
@@ -73,10 +73,10 @@ void drawText() {
 }
 
 void drawWalls() {
-  //map1->draw(matrix);
-  matrix.clear();
-  matrix.drawBitmap(0, 0, walls1_bmp, 8, 8, LED_YELLOW);
-  matrix.writeDisplay();
+  map1->draw(matrix);
+  //matrix.clear();
+  //matrix.drawBitmap(0, 0, walls1_bmp, 8, 8, LED_YELLOW);
+  //matrix.writeDisplay();
 }
 
 void drawHero() {
