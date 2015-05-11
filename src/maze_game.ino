@@ -41,7 +41,7 @@ void setup() {
   Serial.println("Starting Maze Game");
   
   hero = new Unit(4,6);
-  map1 = new Map(walls0_bmp);
+  gameMap = new Map(walls0_bmp);
   
   matrix.begin(0x70);  // pass in the address
   matrix.setBrightness(1);
@@ -55,15 +55,7 @@ void setup() {
 void loop() {
   pollKeys();
   drawText();
-  if(doesNeedRedraw){
-    matrix.clear();
-    
-    map1->draw(matrix, walls0_bmp);
-    hero->draw(matrix);
-    
-    matrix.writeDisplay();
-    doesNeedRedraw = false;
-  }
+  graphicsPhase();
   endPhase();
 }
 
@@ -86,6 +78,26 @@ void endPhase(){
   delay(100);
 }
 
+void graphicsPhase(){
+  if(doesNeedRedraw){
+    matrix.clear();
+    
+    
+    
+    for (uint8_t i = 0; i < 7; i++){
+      printHex(walls0_bmp[i], 8);
+      // Serial.print(walls0_bmp[i]);
+      //Serial.println("");
+    }
+    
+    gameMap->draw(matrix, (uint8_t*) walls0_bmp);
+    hero->draw(matrix);
+    
+    matrix.writeDisplay();
+    doesNeedRedraw = false;
+  }
+}
+
 
 
 
@@ -104,7 +116,7 @@ void pollKeys() {
       hero->x -=1;
     }
     if (buttons & BUTTON_UP) {       // if up pressed, increment hours
-      map1->setLevel(1);
+      gameMap->setLevel(1);
       hero->y -=1;
     }
     if (buttons & BUTTON_DOWN) {     // if down pressed, decrement hours
@@ -136,5 +148,19 @@ void pollKeys() {
 }
 
 
+
+
+
+//   /////////// For Debugging
+
+void printHex(int num, int precision) {
+     char tmp[16];
+     char format[128];
+
+     sprintf(format, "0x%%.%dX ", precision);
+
+     sprintf(tmp, format, num);
+     Serial.print(tmp);
+}
 
 

@@ -26,7 +26,7 @@ Setup minicom on your debian based linux distro:
     
     # Now you can start your serial terminal
     $  minicom
-    << ctl + A then x to exit >>
+    << ctl + A then q to quit >>
 
 
 

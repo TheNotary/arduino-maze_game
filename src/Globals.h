@@ -2,7 +2,7 @@ Adafruit_BicolorMatrix matrix = Adafruit_BicolorMatrix();
 Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 
 Unit *hero;
-Map *map1;
+Map *gameMap;
 boolean doesNeedRedraw = true;
 boolean textNeedsRedraw = true;
 uint8_t lastButtonPress = 0;
