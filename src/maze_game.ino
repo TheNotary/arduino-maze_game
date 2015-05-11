@@ -90,7 +90,7 @@ void graphicsPhase(){
       //Serial.println("");
     }
     
-    gameMap->draw(matrix, (uint8_t*) walls0_bmp);
+    gameMap->draw(matrix, (uint8_t*) wall_buffer);
     hero->draw(matrix);
     
     matrix.writeDisplay();
